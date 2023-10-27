@@ -1,0 +1,11 @@
+.nav-item {
+  text-align: right;
+}
+
+.navbar-nav .nav-item .nav-link:focus {
+  border-bottom: 2px solid;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+  border-bottom: 2px solid;
+}

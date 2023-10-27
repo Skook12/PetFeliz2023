@@ -1,0 +1,9 @@
+.imagem-card {
+  object-fit: cover;
+  height: 300px;
+}
+
+.cor-azul-borda {
+  border: 5px solid;
+  border-color: #81f2f7;
+}

@@ -1,0 +1,23 @@
+.borda-inferior {
+  border-bottom: 2px solid;
+}
+
+.tamanho-modal {
+  weight: vw-100;
+}
+
+.imagem-pet {
+  object-fit: cover;
+  width: 250px;
+}
+
+.icone-painel-pets {
+  object-fit: cover;
+  height: 25px;
+}
+
+@media (max-width: 600px) {
+  .imagem-pet {
+    width: 150px;
+  }
+}

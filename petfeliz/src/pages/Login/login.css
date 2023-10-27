@@ -1,0 +1,9 @@
+.imagem-login {
+  object-fit: cover;
+  width: 5.5rem;
+}
+
+.fundo-login {
+  object-fit: cover;
+  height: 100%;
+}
