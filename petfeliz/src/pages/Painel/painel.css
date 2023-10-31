@@ -1,5 +1,6 @@
 .borda-inferior {
   border-bottom: 2px solid;
+  border-color: gray;
 }
 
 .tamanho-modal {
