@@ -6,14 +6,14 @@ import api from "../../Services/api";
 
 function Painel() {
   const [pet, setPet] = useState();
-  const [formpet, setFormPet] = useState({
-    nome: "nome",
-    idade: "idade",
-    descricao: "descrição",
-    raca: "raça",
-    status: "status",
-    imagem: "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg",
-  });
+  const [nome, setNome] = useState("");
+  const [idade, setIdade] = useState(0);
+  const [descricao, setDescricao] = useState("");
+  const [raca, setRaca] = useState("");
+  const [status, setStatus] = useState("");
+  const [id, setId] = useState("");
+  const [imagem, setImagem] = useState("https://mdbootstrap.com/img/Photos/Others/placeholder.jpg");
+ 
 
   useEffect(() => {
     api
@@ -24,15 +24,53 @@ function Painel() {
       });
   }, []);
 
-  function alterarPet(aux) {
-    setFormPet({
-      nome: aux.nome,
-      idade: aux.idade,
-      descricao: aux.descricao,
-      raca: aux.raca,
-      status: aux.status_adocao,
-      imagem: aux.link_imagem,
+  function CreatePet() {
+    api.post('pets', {
+      descricao: descricao,
+      id_dono: "usuario-teste",
+      idade: idade,
+      link_imagem: imagem,
+      nome: nome,
+      raca: raca,
+      status_adocao: status
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.error(error);
     });
+  }
+
+  function updatePet() {
+    api.put('pets/'+ id, {
+      descricao: descricao,
+      id_dono: "usuario-teste",
+      idade: idade,
+      link_imagem: imagem,
+      nome: nome,
+      raca: raca,
+      status_adocao: status
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+  }
+  
+
+  
+
+  function alterarPet(aux) {
+    setNome(aux.nome)
+    setIdade(aux.idade)
+    setDescricao(aux.descricao)
+    setRaca(aux.raca)
+    setStatus(aux.status)
+    setImagem(aux.link_imagem)
+    setId(aux.id)
   }
 
   return (
@@ -70,28 +108,14 @@ function Painel() {
             <div className="col-9 p-1 p-sm-3 p-lg-5">
               <div className="mb-4 d-flex justify-content-center">
                 <img
-                  src={formpet.imagem}
+                  src={imagem}
                   alt="example placeholder"
                   className="imagem-pet"
                 />
               </div>
               <div className="d-flex justify-content-center">
                 <form className="row d-flex col-sm-12" id="editarpet">
-                  <div className="d-flex justify-content-center">
-                    <div className="btn btn-primary btn-rounded col-8 col-sm-12">
-                      <label
-                        className="form-label text-white"
-                        htmlFor="customFile1"
-                      >
-                        Escolha uma Imagem
-                      </label>
-                      <input
-                        type="file"
-                        className="form-control d-none"
-                        id="customFile1"
-                      />
-                    </div>
-                  </div>
+                  
                   <div className="m-sm-3 col-12 col-sm-3">
                     <label htmlFor="Nome" className="form-label">
                       Nome do Pet
@@ -101,7 +125,22 @@ function Painel() {
                       className="form-control"
                       placeholder="Nome"
                       aria-label="Nome"
-                      value={formpet.nome}
+                      value={nome}
+                      onChange={(e)=>setNome(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="m-sm-3 col-12 col-sm-3">
+                    <label htmlFor="Nome" className="form-label">
+                      Link Imagem
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Imagem"
+                      aria-label="Imagem"
+                      value={imagem}
+                      onChange={(e)=>setImagem(e.target.value)}
                     />
                   </div>
 
@@ -115,7 +154,8 @@ function Painel() {
                       id="Idade"
                       placeholder="Idade do Pet"
                       aria-label="Idade do Pet"
-                      value={formpet.idade}
+                      value={idade}
+                      onChange={(e)=>setIdade(e.target.value)}
                     />
                   </div>
                   <div className="m-sm-3 col-12 col-sm-3">
@@ -128,7 +168,8 @@ function Painel() {
                       id="Descricao"
                       placeholder="Descricao"
                       aria-label="Descricao"
-                      value={formpet.descricao}
+                      value={descricao}
+                      onChange={(e)=>setDescricao(e.target.value)}
                     />
                   </div>
                   <div className="m-sm-3 col-12 col-sm-3">
@@ -141,7 +182,8 @@ function Painel() {
                       id="Raca"
                       placeholder="Raca"
                       aria-label="Raca"
-                      value={formpet.raca}
+                      value={raca}
+                      onChange={(e)=>setRaca(e.target.value)}
                     />
                   </div>
                   <div className="m-sm-3 col-12 col-sm-3">
@@ -154,11 +196,12 @@ function Painel() {
                       id="Status"
                       placeholder="Status"
                       aria-label="Status"
-                      value={formpet.status}
+                      value={status}
+                      onChange={(e)=>setStatus(e.target.value)}
                     />
                   </div>
                   <div className="mt-2 col-8 col-sm-12">
-                    <button type="button" className="btn btn-primary">
+                    <button type="button" className="btn btn-primary" onClick={() => updatePet()}>
                       Salvar Pet
                     </button>
                   </div>
@@ -192,36 +235,38 @@ function Painel() {
               <div>
                 <div className="mb-4 d-flex justify-content-center">
                   <img
-                    src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                    alt="example placeholder"
+                    src={imagem}
+                    alt="imagem form"
                     className="imagem-pet"
                   />
                 </div>
                 <div className="d-flex justify-content-center">
                   <form className="row d-flex col-sm-12" id="cadastropet">
-                    <div className="btn btn-primary btn-rounded">
-                      <label
-                        className="form-label text-white m-1"
-                        htmlFor="customFile1"
-                      >
-                        Escolha uma Imagem
-                      </label>
-                      <input
-                        type="file"
-                        className="form-control d-none"
-                        id="customFile1"
-                      />
-                    </div>
+                    
 
                     <div className="m-1 m-sm-3 col-12 col-sm-3">
                       <label htmlFor="Nome" className="form-label">
-                        Nome do Pet
+                        Nome
                       </label>
                       <input
                         type="text"
                         className="form-control"
                         placeholder="Nome"
                         aria-label="Nome"
+                        onChange={(e)=>setNome(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="m-1 m-sm-3 col-12 col-sm-3">
+                      <label htmlFor="Nome" className="form-label">
+                        Link da Imagem
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Nome"
+                        aria-label="Nome"
+                        onChange={(e)=>setImagem(e.target.value)}
                       />
                     </div>
 
@@ -235,6 +280,7 @@ function Painel() {
                         id="Idade"
                         placeholder="Idade do Pet"
                         aria-label="Idade do Pet"
+                        onChange={(e)=>setIdade(e.target.value)}
                       />
                     </div>
                     <div className="m-1 m-sm-3 col-12 col-sm-3">
@@ -247,6 +293,7 @@ function Painel() {
                         id="Descricao"
                         placeholder="Descricao"
                         aria-label="Descricao"
+                        onChange={(e)=>setDescricao(e.target.value)}
                       />
                     </div>
                     <div className="m-1 m-sm-3 col-12 col-sm-3">
@@ -259,6 +306,7 @@ function Painel() {
                         id="Raca"
                         placeholder="Raca"
                         aria-label="Raca"
+                        onChange={(e)=>setRaca(e.target.value)}
                       />
                     </div>
                     <div className="m-1 m-sm-3 col-12 col-sm-3">
@@ -269,8 +317,9 @@ function Painel() {
                         type="tel"
                         className="form-control"
                         id="Telefone"
-                        placeholder="Telefone"
-                        aria-label="Telefone"
+                        placeholder="Status"
+                        aria-label="Status"
+                        onChange={(e)=>setStatus(e.target.value)}
                       />
                     </div>
                   </form>
@@ -278,7 +327,7 @@ function Painel() {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary">
+              <button type="button" className="btn btn-primary" onClick={() => CreatePet()}>
                 Salvar Pet
               </button>
             </div>
