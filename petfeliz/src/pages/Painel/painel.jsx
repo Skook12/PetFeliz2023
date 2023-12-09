@@ -3,6 +3,7 @@ import ImagemPrincipal from "../../images/icone-principal.png";
 import IconePlus from "../../images/icon-plus.svg";
 import React, { useEffect, useState } from "react";
 import api from "../../Services/api";
+import { jwtDecode } from 'jwt-decode'
 
 function Painel() {
   const [pet, setPet] = useState();
@@ -14,10 +15,11 @@ function Painel() {
   const [id, setId] = useState("");
   const [imagem, setImagem] = useState("https://mdbootstrap.com/img/Photos/Others/placeholder.jpg");
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [decodedToken, setDecodedToken] = useState(jwtDecode(token));
 
   useEffect(() => {
     api
-      .get("pets")
+      .get("users/"+decodedToken.id+"/pets")
       .then((response) => setPet(response.data))
       .catch((err) => {
         console.error("ops! ocorreu um erro" + err);
@@ -27,7 +29,7 @@ function Painel() {
   function CreatePet() {
     api.post('pets', {
       descricao: descricao,
-      id_dono: "usuario-teste",
+      id_dono: decodedToken.id,
       idade: idade,
       link_imagem: imagem,
       nome: nome,
@@ -39,13 +41,14 @@ function Painel() {
     })
     .catch(function (error) {
       console.error(error);
+      alert(error.response.data.error)
     });
   }
 
   function updatePet() {
     api.put('pets/'+ id, {
       descricao: descricao,
-      id_dono: "usuario-teste",
+      id_dono: decodedToken.id,
       idade: idade,
       link_imagem: imagem,
       nome: nome,
@@ -68,7 +71,7 @@ function Painel() {
     setIdade(aux.idade)
     setDescricao(aux.descricao)
     setRaca(aux.raca)
-    setStatus(aux.status)
+    setStatus(aux.status_adocao)
     setImagem(aux.link_imagem)
     setId(aux.id)
   }
@@ -201,7 +204,7 @@ function Painel() {
                     />
                   </div>
                   <div className="mt-2 col-8 col-sm-12">
-                    <button type="button" className="btn btn-primary" onClick={() => updatePet()}>
+                    <button type="submmit" className="btn btn-primary" onClick={() => updatePet()}>
                       Salvar Pet
                     </button>
                   </div>
@@ -327,7 +330,7 @@ function Painel() {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary" onClick={() => CreatePet()}>
+              <button type="submmit" className="btn btn-primary" onClick={() => CreatePet()}>
                 Salvar Pet
               </button>
             </div>

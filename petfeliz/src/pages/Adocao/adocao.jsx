@@ -9,13 +9,12 @@ function Adocao() {
 
   useEffect(() => {
     api
-      .get("pets")
+      .get("pets/all")
       .then((response) => setPet(response.data))
       .catch((err) => {
         console.error("ops! ocorreu um erro" + err);
       });
   }, []);
-
   return (
     <body className="fundo-cor fonte-spartan p-1 p-lg-4">
       <Navbar />
@@ -61,7 +60,8 @@ function Adocao() {
                   link_imagem={u.link_imagem}
                   descricao={u.descricao}
                   nome={u.nome}
-                  dono={u.id_dono}
+                  dono={u.dados_dono.nome}
+                  telefone={u.dados_dono.telefone}
                   idx={index}
                 />
               </>

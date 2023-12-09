@@ -1,6 +1,6 @@
 import ImagemPet from "../../images/zola.png";
 import "./boxcriadores.css";
-function BoxCriadores() {
+function BoxCriadores(props) {
   return (
     <div
       className="col-md-6 p-0 m-5 cor-vermelho-borda"
@@ -12,8 +12,8 @@ function BoxCriadores() {
         alt="..."
       />
       <div>
-        <h5 className="mt-2">Rodrigo Franco</h5>
-        <p>Contato: rodrigo.franco@aln.senaicimatec.edu.br</p>
+        <h5 className="mt-2">{props.nome}</h5>
+        <p>Contato: {props.contato}</p>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ function ModalSaibaMais(props) {
             <p>Raça: {props.raca}</p>
             <p>Status da Adoção: {props.status_adocao}</p>
             <p>Nome do atual Responsável: {props.dono}</p>
-            <p>Telefone para contato: {"ModalSaibaMais" + props.idx}</p>
+            <p>Telefone para contato: {props.telefone}</p>
           </div>
         </div>
       </div>

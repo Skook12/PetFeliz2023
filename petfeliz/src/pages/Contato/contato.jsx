@@ -15,7 +15,11 @@ function Contato() {
         </section>
         <section className="container-fluid">
           <div className="row justify-content-center">
-            <BoxCriadores />
+            <BoxCriadores contato={"rodrigo.franco@aln.senaicimatec.edu.br"} nome={"Rodrigo Franco"} />
+            <BoxCriadores contato={"antonio.filho@aln.senaicimatec.edu.br"} nome={"Antônio César"} />
+            <BoxCriadores contato={"guilherme.braga@aln.senaicimatec.edu.br"} nome={"Guilherme Lima"} />
+            <BoxCriadores contato={"marcos.machado@aln.senaicimatec.edu.br"} nome={"Marcos Machado"} />
+            <BoxCriadores contato={"jose.auto@aln.senaicimatec.edu.br"} nome={"Jose Auto"} />
           </div>
         </section>
       </main>
