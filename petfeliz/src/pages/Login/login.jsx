@@ -1,10 +1,14 @@
 import ImagemLogin from "../../images/fundoLogin.jpg";
 import IconePrincipal from "../../images/icone-principal.png";
 import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import api from "../../Services/api";
 import "./login.css";
 
 function Login() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
 
   function RedirecionarCadastro() {
     navigate("/cadastro");
@@ -12,6 +16,27 @@ function Login() {
 
   function RedirecionarPainel() {
     navigate("/painel");
+  }
+
+  function Login() {
+    api.post('users/login', {
+      email: email,
+      senha: senha
+    })
+    .then(function (response) {
+      console.log(response);
+      if(!response.data.error){
+        console.log(response.data.token)
+        localStorage.setItem("token",response.data.token);
+        navigate("/painel");
+      }else{
+        alert(response.data.error)
+      }
+      
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
   }
 
   return (
@@ -35,25 +60,26 @@ function Login() {
                   className="form-control"
                   id="Email"
                   aria-describedby="emailHelp"
+                  onChange={(e)=>setEmail(e.target.value)}  
                 />
               </div>
               <div className="mb-3">
                 <label htmlFor="Password" className="form-label">
                   Password
                 </label>
-                <input type="password" className="form-control" id="Password" />
+                <input type="password" className="form-control" id="Password" onChange={(e)=>setSenha(e.target.value)} />
               </div>
 
               <button
-                type="submit"
+                type="button"
                 className="btn btn-primary"
-                onClick={RedirecionarPainel}
+                onClick={() => Login()}
               >
                 Logar
               </button>
               <div className="mt-3">
                 <a
-                  type="submit"
+                  type="button"
                   className="text-dark"
                   onClick={RedirecionarCadastro}
                 >

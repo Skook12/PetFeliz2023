@@ -1,5 +1,47 @@
 import IconePrincipal from "../../images/icone-principal.png";
+import api from "../../Services/api";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 function Cadastro() {
+  const navigate = useNavigate();
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [cpf, setCPF] = useState("");
+  const [data, setData] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [estado, setEstado] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [numero, setNumero] = useState("");
+  const [rua, setRua] = useState("");
+
+  function CreateUser() {
+    api.post('users', {
+
+      cpf: cpf,
+      data_nasc: data,   
+      email: email,
+      nome: nome,
+      senha: senha,
+      telefone: telefone,
+
+      cidade: cidade,
+      estado: estado,
+      bairro: bairro,
+      numero: numero,
+      rua: rua
+    })
+    .then(function (response) {
+      console.log(response);
+      navigate("/login");
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+  }
+
   return (
     <body className="fonte-spartan fundo-azul">
       <main>
@@ -21,6 +63,7 @@ function Cadastro() {
                   className="form-control"
                   placeholder="Nome"
                   aria-label="Nome"
+                  onChange={(e)=>setNome(e.target.value)}
                 />
               </div>
 
@@ -34,6 +77,7 @@ function Cadastro() {
                   id="Email"
                   placeholder="Email"
                   aria-label="Email"
+                  onChange={(e)=>setEmail(e.target.value)}
                 />
               </div>
               <div className="m-3 col-2">
@@ -46,13 +90,14 @@ function Cadastro() {
                   id="Password"
                   placeholder="Senha"
                   aria-label="Senha"
+                  onChange={(e)=>setSenha(e.target.value)}
                 />
               </div>
               <div className="m-3 col-2">
                 <label htmlFor="Password" className="form-label">
                   Data de nascimento
                 </label>
-                <input type="date" className="form-control" id="Date" />
+                <input type="date" className="form-control" id="Date" onChange={(e)=>setData(e.target.value)}/>
               </div>
               <div className="m-3 col-2">
                 <label htmlFor="CPF" className="form-label">
@@ -65,6 +110,7 @@ function Cadastro() {
                   placeholder="CPF"
                   aria-label="CPF"
                   aria-describedby="emailHelp"
+                  onChange={(e)=>setCPF(e.target.value)}
                 />
               </div>
               <div className="m-3 col-2">
@@ -77,6 +123,7 @@ function Cadastro() {
                   id="Telefone"
                   placeholder="Telefone"
                   aria-label="Telefone"
+                  onChange={(e)=>setTelefone(e.target.value)}
                 />
               </div>
 
@@ -90,6 +137,7 @@ function Cadastro() {
                   id="Cidade"
                   placeholder="Cidade"
                   aria-label="Cidade"
+                  onChange={(e)=>setCidade(e.target.value)}
                 />
               </div>
 
@@ -103,6 +151,7 @@ function Cadastro() {
                   id="Estado"
                   placeholder="Estado"
                   aria-label="Estado"
+                  onChange={(e)=>setEstado(e.target.value)}
                 />
               </div>
 
@@ -116,6 +165,7 @@ function Cadastro() {
                   id="Bairro"
                   placeholder="Bairro"
                   aria-label="Bairro"
+                  onChange={(e)=>setBairro(e.target.value)}
                 />
               </div>
 
@@ -129,6 +179,7 @@ function Cadastro() {
                   id="Numero"
                   placeholder="Numero"
                   aria-label="Numero"
+                  onChange={(e)=>setNumero(e.target.value)}
                 />
               </div>
 
@@ -142,11 +193,12 @@ function Cadastro() {
                   id="Rua"
                   placeholder="Rua"
                   aria-label="Rua"
+                  onChange={(e)=>setRua(e.target.value)}
                 />
               </div>
 
               <div className="col-2 mt-auto ms-sm-auto">
-                <button type="submit" className="btn btn-primary">
+                <button type="button"  className="btn btn-primary" onClick={() => CreateUser()}>
                   Cadastrar
                 </button>
               </div>

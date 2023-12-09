@@ -13,7 +13,7 @@ function Painel() {
   const [status, setStatus] = useState("");
   const [id, setId] = useState("");
   const [imagem, setImagem] = useState("https://mdbootstrap.com/img/Photos/Others/placeholder.jpg");
- 
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
     api
